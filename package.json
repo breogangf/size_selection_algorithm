@@ -4,7 +4,8 @@
   "description": "This is just a clothes size selection algorithm test built in Javascript (ES6) and powered by a NodeJS runtime environment.",
   "main": "index.js",
   "scripts": {
-    "start": "node index.js"
+    "start": "node index.js",
+    "test": "NODE_ENV=test mocha -R spec ./test/ --exit"
   },
   "repository": {
     "type": "git",
