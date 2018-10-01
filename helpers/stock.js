@@ -25,17 +25,15 @@ exports.createStockMap = (productSizes, stockEntries) => {
 exports.returnStockRemovingEquivalences = (stockMap) => {
     const stockArray = Array.from(stockMap.values());
 
-    const sortedStockArray = stockArray.map((stockItem) => {
-        return { ...stockItem, sizeSystem: sortNumbersHelper.sortNumber(stockItem.sizeSystem) };
-    });
+    const sortedStockArray = stockArray.map((stockItem) => 
+         ({ ...stockItem, sizeSystem: sortNumbersHelper.sortNumber(stockItem.sizeSystem) })
+    );
 
     //Group by sizeSystem
-    const groupBy = (array, key) => {
-        return array.reduce((returnValue, element) => {
+    const groupBy = (array, key) => array.reduce((returnValue, element) => {
             (returnValue[element[key]] = returnValue[element[key]] || []).push(element);
             return returnValue;
         }, {});
-    };
 
     //Get Max value for each stock item
     const groupedStock = new Map(Object.entries(groupBy(sortedStockArray, 'sizeSystem')));
