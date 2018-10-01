@@ -24,12 +24,10 @@ exports.getSizes = (req, res) => {
 
             const stockMap = stockHelper.createStockMap(productSizes, stockEntries);
 
-            //Return final Ids
-            const ids = [];
+            stockHelper.removeStockEquivalences(stockMap);
 
-            stockMap.forEach((stockItem, key) => {
-                ids.push(key);
-            });
+            //Return final ids
+            const ids = Array.from(stockMap.keys());
 
             return res.status(200).send(ids);
         });
