@@ -50,9 +50,8 @@ describe('Sizes', () => {
             .end((err, res) => {
               res.should.have.status(200);
               res.should.be.json;
-              res.body.should.be.an('Object');
-              res.body.should.have.property('message');
-              res.body.message.should.equal('This is just a basic message before sending the actual list of sizes');
+              res.body.should.be.an('Array');
+              res.body.length.should.equal(productSizes.length);
               done();
             });
         });
