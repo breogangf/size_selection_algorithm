@@ -20,7 +20,7 @@ module.exports = app;
 mongoose.Promise = global.Promise;
 
 mongoose.connect('mongodb://localhost/size_selection_algorithm',
-  { useNewUrlParser: true },
+  { useNewUrlParser: true, autoIndex: false },
   (err) => {
     if (err) throw err;
   });
