@@ -1,4 +1,5 @@
 const logger = require('../helpers/logger');
+const stockHelper = require('../helpers/stock');
 const ProductSize = require('../models/productSize');
 const StockEntry = require('../models/stockEntry');
 
@@ -21,23 +22,7 @@ exports.getSizes = (req, res) => {
                 return res.status(404).send({ message: 'No stock entries were found' });
             }
 
-            const stockMap = new Map();
-
-            stockEntries.forEach((stockEntry) => {
-                if (stockEntry.qty > 0) stockMap.set(stockEntry.sizeId, { qty: stockEntry.qty });
-            });
-
-            productSizes.forEach((productSize) => {
-                const stockObject = (stockMap.get(productSize.id));
-                if (stockObject) {
-                    stockMap.set(productSize.id, {
-                        sizeSystem: productSize.sizeSystem,
-                        description: productSize.description,
-                        qty: stockObject.qty
-                    });
-                }
-            });
-
+            const stockMap = stockHelper.createStockMap(productSizes, stockEntries);
 
             //Return final Ids
             const ids = [];
