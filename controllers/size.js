@@ -23,13 +23,7 @@ exports.getSizes = (req, res) => {
             }
 
             const stockMap = stockHelper.createStockMap(productSizes, stockEntries);
-
-            stockHelper.removeStockEquivalences(stockMap);
-
-            //Return final ids
-            const ids = Array.from(stockMap.keys());
-
-            return res.status(200).send(ids);
+            return res.status(200).send(stockHelper.returnStockRemovingEquivalences(stockMap));
         });
     });
 };

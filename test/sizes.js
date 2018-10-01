@@ -20,7 +20,7 @@ describe('Sizes', () => {
       .catch(done);
   });
   describe('GET /sizes', () => {
-    it('should return 200 including the ids of the items in stock', (done) => {
+    it('should return 200 including the ids of the items in stock ascending sorted', (done) => {
       const productSizes = [
         { id: 1, sizeSystem: 123, description: 'X' },
         { id: 2, sizeSystem: 321, description: 'x' },
@@ -51,8 +51,9 @@ describe('Sizes', () => {
               res.should.have.status(200);
               res.should.be.json;
               res.body.should.be.an('Array');
-              res.body.length.should.equal(7);
-              expect(res.body).to.include.members([2, 3, 4, 5, 6, 7, 8]);
+              res.body.length.should.equal(5);
+              expect(res.body).to.include.members([2, 5, 6, 7, 8]);
+              chai.assert.deepEqual(res.body, [2, 5, 6, 7, 8]);
               done();
             });
         });

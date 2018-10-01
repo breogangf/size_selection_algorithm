@@ -1,4 +1,3 @@
-const permutationHelper = require('./permutation');
 const sortNumbersHelper = require('./sortNumbers');
 
 exports.createStockMap = (productSizes, stockEntries) => {
@@ -23,13 +22,14 @@ exports.createStockMap = (productSizes, stockEntries) => {
     return stockMap;
 };
 
-exports.removeStockEquivalences = (stockMap) => {
+exports.returnStockRemovingEquivalences = (stockMap) => {
     const stockArray = Array.from(stockMap.values());
 
     const sortedStockArray = stockArray.map((stockItem) => {
         return { ...stockItem, sizeSystem: sortNumbersHelper.sortNumber(stockItem.sizeSystem) };
     });
 
+    //Group by sizeSystem
     const groupBy = (array, key) => {
         return array.reduce((returnValue, element) => {
             (returnValue[element[key]] = returnValue[element[key]] || []).push(element);
@@ -37,6 +37,13 @@ exports.removeStockEquivalences = (stockMap) => {
         }, {});
     };
 
-    const groupedStock = groupBy(sortedStockArray, 'sizeSystem');
-    //console.log(groupedStock);
+    //Get Max value for each stock item
+    const groupedStock = new Map(Object.entries(groupBy(sortedStockArray, 'sizeSystem')));
+    const groupedStockArray = Array.from(groupedStock.values());
+    const result = groupedStockArray.map((a) => {
+        const maxQty = Math.max(...a.map(b => b.qty));
+        return a.find((o) => o.qty === maxQty).sizeId;
+    });
+    //Ascending sort the result
+    return result.sort((a, b) => a - b);
 };
